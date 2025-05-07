@@ -12,15 +12,302 @@
   --font-mono: var(--font-geist-mono);
 }
 
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* 미디어 쿼리 사용 시 다크모드 설정 간단한 os 다크모드 설정 dark: 브라우저 다크모드 설정 */
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #171717;
+    --foreground: #ffffff;
   }
 }
 
+@media (prefers-color-scheme: light) {
+  :root {
+    --background: #ffffff;
+    --foreground: #171717;
+  }
+}
+
+/* theme colors(커스텀 테마 색상) */
+@theme {
+  --color-mint-500: #008080;
+  --color-mint-600: #006666;
+  --color-mint-700: #004d4d;
+  --color-mint-800: #003333;
+  --color-mint-900: #001a1a;
+}
+
+@theme {
+  /* 주요 색상 */
+  --color-flow-blue: #0052CC;
+  --color-flow-purple: #6554C0;
+
+  /* 보조 색상 */
+  --color-flow-teal: #36B37E;
+
+  /* 강조 색상 */
+  --color-flow-orange: #FF5630;
+
+  /* 회사 폰트 */
+  --font-noto-sans-kr: "Noto Sans KR", sans-serif;
+}
+
+
+/* utility classes */
+/* @utiflity를 사용하는 이유는 hover와 focus를 포함한 다양한 상태에서 동작하기 위해서 */
+/* intelisense를 작동시키기 위해서 */
+@utility my_class {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 2rem;
+  font-weight: bold;
+  color: var(--color-mint-500);
+}
+
+@utility hovers {
+  &:hover {
+    background-color: var(--color-mint-500);
+    color: var(--color-white);
+  }
+}
+
+/* @layer base {
+  h2 {
+    @apply bg-mint-900 text-white px-4 py-2 rounded-md;
+  }
+} */
+
+/* 우선순위 base < components */
+@layer components {
+  .unsplash{
+    img{
+      @apply mb-4 h-auto w-full;
+    }
+  }
+
+  .list{
+    ul{
+      @apply divide-y divide-gray-200 p-2;
+    }
+    li{
+      @apply flex justify-between gap-x-6 py-5;
+    }
+    img{
+      @apply sm:h-16 sm:w-16 h-24 w-24 rounded-full;
+    }
+  }
+
+  .animation {
+    button {
+      @apply p-4 rounded-md border-none bg-black text-white cursor-pointer
+        hover:bg-gray-400 hover:text-black transition-all duration-300 ease-in-out;
+    }
+    .menu-container {
+      @apply opacity-0 translate-y-10 transition-all duration-300 ease-in-out;
+    }
+    .menu-container.active {
+      @apply opacity-100 translate-y-0;
+    }
+    .menu-item {
+      @apply border-2 border-black rounded-md p-2;
+    }
+  }
+
+  .imgSlide {
+    @apply relative overflow-hidden w-full;
+  }
+
+  .imgSlide .original {
+    @apply flex;
+    animation: slide01 15s linear infinite;
+  }
+  
+  .imgSlide .clone {
+    @apply flex;
+    animation: slide02 30s linear infinite;
+  }
+  
+  @keyframes slide01 {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-100% - 10px));
+    }
+  }
+  
+  @keyframes slide02 {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-200%);
+    }
+  }
+
+  @theme {
+    --animate-wiggle: wiggle 1.5s linear infinite;
+
+    @keyframes wiggle {
+      0%, 7% {
+        transform: rotateZ(0);
+      }
+      15% {
+        transform: rotateZ(-10deg);
+      }
+      20% {
+        transform: rotateZ(0deg);
+      }
+      25% {
+        transform: rotateZ(10deg);
+      }
+      30% {
+        transform: rotateZ(0deg);
+      }
+      35% {
+        transform: rotateZ(-10deg);
+      }
+      40% {
+        transform: rotateZ(0deg);
+      }
+    }
+  }
+
+  @theme {
+    --animate-spin: spin 2s linear infinite;
+
+    @keyframes spin {
+      0% {
+        transform: rotate(0deg);
+      }
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+  }
+  
+  /* h2 {
+    @apply bg-mint-500 text-white px-4 py-2 rounded-md;
+  }
+  .typography {
+    h1{
+      @apply text-3xl font-bold rounded-lg bg-gray-100 p-4;
+    }
+    p{
+      @apply text-base text-mint-500;
+    }
+  } */
+}
+
+@theme {
+  --animate-shake: shake 1s ease-in-out infinite;
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    25% {
+      transform: translateX(5px);
+    }
+    75% {
+      transform: translateX(-5px);
+    }
+  }
+}
+
+/* @theme {
+  --animate-ghost: ghost 1s ease-in-out infinite;
+  @keyframes ghost {
+    from{
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to{
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+} */
+
+@layer base {
+  .gradient {
+    background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+    background-size: 400% 400%;
+    height: 100vh;
+  }
+}
+
+@theme {
+  --animate-gradient: gradient 10s ease-in-out infinite;
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+}
+
+@theme {
+  --animate-pageTransition: pageTransition 1s ease-in-out;
+  @keyframes pageTransition {
+    from {
+      transform: translateY(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateY(0);
+      opacity: 1;
+    }
+  }
+}
+
+
+@theme {
+  --animate-slide-in: slide-in 1s ease-in-out;
+  @keyframes slide-in {
+    from {
+      transform: translateX(30px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+}
+/* @theme {
+  --animate-fade-in: fade-in 1s ease-in-out;
+  @keyframes fade-in {
+    from {
+      opacity: 0; 
+    }
+    to {
+      opacity: 1;
+    }
+  }
+} */
+
+
 body {
   background: var(--background);
-  color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+
+/* 반응형 카드 제목 */
+/* 브라우저 크기에 따라 변수 값 변경 */
+/* @theme {
+  --breakpoint-md:800px; //기본 md는 768px
+  --breakpoint-lg:900px; //기본 lg는 1024px
+  --breakpoint-md:initial; //breakpoint-md 변수를 초기값으로 설정
+} */
