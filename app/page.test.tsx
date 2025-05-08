@@ -1,10 +1,13 @@
-/**
- * @jest-environment jsdom
- */
+import Home from "./page";
 import { render, screen } from "@testing-library/react";
-import Page from "./page";
 
-it("App Router: Works with Server Components", () => {
-  render(<Page />);
-  expect(screen.getByRole("heading")).toHaveTextContent("App Router");
+test("메인 페이지가 제대로 렌더링되는지 테스트", () => {
+  // 메인 페이지 렌더링
+  render(<Home />);
+
+  // "컴포넌트 테스트 연습하기" 텍스트를 가진 요소를 찾기
+  const element = screen.getByText("컴포넌트 테스트 연습하기");
+
+  // 요소가 화면에 있는지 확인
+  expect(element).toBeInTheDocument();
 });

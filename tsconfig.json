@@ -33,6 +33,6 @@
     "**/*.tsx",
     "types.d.ts",
     ".next/types/**/*.ts"
-  ],
+, "app/utils/dateUtils.test.js"  ],
   "exclude": ["node_modules"]
 }
