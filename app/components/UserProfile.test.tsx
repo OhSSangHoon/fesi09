@@ -23,5 +23,5 @@ test("UserProfile 컴포넌트가 제대로 렌더링되는지 확인", () => {
     //button 요소 찾기
     const button = screen.getByRole("button", { name: "프로필 수정" });
     //button 요소가 활성화되어 있는지 확인
-    expect(button).not.toBeDisabled();
+    expect(button).toBeEnabled();
 });
