@@ -1,13 +1,15 @@
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import Home from "./page";
-import { render, screen } from "@testing-library/react";
 
-test("메인 페이지가 제대로 렌더링되는지 테스트", () => {
-  // 메인 페이지 렌더링
+test("5글자 이상 입력하면 에러 메시지가 사라진다", async () => {
   render(<Home />);
+  const errorMessage = screen.getByText("5글자 이상 입력하세요");
+  expect(errorMessage).toBeInTheDocument();
 
-  // "컴포넌트 테스트 연습하기" 텍스트를 가진 요소를 찾기
-  const element = screen.getByText("컴포넌트 테스트 연습하기");
+  const input = screen.getByPlaceholderText("아무거나 입력하세요");
+  fireEvent.change(input, { target: { value: "12345" } });
 
-  // 요소가 화면에 있는지 확인
-  expect(element).toBeInTheDocument();
+  await waitFor(() => {
+    expect(errorMessage).not.toBeInTheDocument();
+  });
 });
