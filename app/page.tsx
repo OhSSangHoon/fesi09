@@ -1,20 +1,28 @@
+// app/page.tsx
 "use client";
 
-import { useState } from "react";
+import useCounterStore from "./stores/useCounterStore";
 
 export default function Home() {
-  const [text, setText] = useState("");
+  const count = useCounterStore((state) => state.count);
+  const increment = useCounterStore((state) => state.increment);
+  const decrement = useCounterStore((state) => state.decrement);
 
   return (
-    <div>
-      <input
-        className="border-2 border-gray-300 rounded-md p-2"
-        type="text"
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="아무거나 입력하세요"
-      />
-      {text.length < 5 && <p>5글자 이상 입력하세요</p>}
+    <div className="flex gap-2 items-center justify-center">
+      <button
+        className="bg-red-500 text-white p-2 rounded-md"
+        onClick={decrement}
+      >
+        감소
+      </button>
+      <p>Count: {count}</p>
+      <button
+        className="bg-blue-500 text-white p-2 rounded-md"
+        onClick={increment}
+      >
+        증가
+      </button>
     </div>
   );
 }

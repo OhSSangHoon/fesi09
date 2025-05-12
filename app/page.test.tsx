@@ -1,15 +1,30 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+// app/page.test.tsx
+
+import { fireEvent, render, screen } from "@testing-library/react";
 import Home from "./page";
+import useCounterStore from "./stores/useCounterStore";
 
-test("5글자 이상 입력하면 에러 메시지가 사라진다", async () => {
-  render(<Home />);
-  const errorMessage = screen.getByText("5글자 이상 입력하세요");
-  expect(errorMessage).toBeInTheDocument();
+describe("Home 페이지 테스트", () => {
+  beforeEach(() => {
+    useCounterStore.setState({ count: 0 });
+  });
 
-  const input = screen.getByPlaceholderText("아무거나 입력하세요");
-  fireEvent.change(input, { target: { value: "12345" } });
+  test("첫 렌더링 시 초기값은 0이다.", () => {
+    render(<Home />);
+    expect(screen.getByText("Count: 0")).toBeInTheDocument();
+  });
 
-  await waitFor(() => {
-    expect(errorMessage).not.toBeInTheDocument();
+  test("증가 버튼 클릭 시 카운트가 증가해야 한다.", () => {
+    render(<Home />);
+    const incrementButton = screen.getByText("증가");
+    fireEvent.click(incrementButton);
+    expect(screen.getByText("Count: 1")).toBeInTheDocument();
+  });
+
+  test("감소 버튼 클릭 시 카운트가 감소해야 한다.", () => {
+    render(<Home />);
+    const decrementButton = screen.getByText("감소");
+    fireEvent.click(decrementButton);
+    expect(screen.getByText("Count: -1")).toBeInTheDocument();
   });
 });
