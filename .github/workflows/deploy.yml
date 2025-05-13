@@ -24,7 +24,16 @@ jobs:
       - name: Github Repository 파일 가져오기
         uses: actions/checkout@v4
 
-      # PR 코멘트 단계 제거
+      - name: PR 존재 여부 확인 및 코멘트 추가
+        run: |
+          if [ "${{ github.event_name }}" == "pull_request" ]; then
+            echo "PR이 존재합니다. 코멘트를 추가합니다."
+            gh pr comment ${{ github.event.pull_request.number }} --body "안녕하세요! PR을 검토하겠습니다. 👋"
+          else
+            echo "PR이 존재하지 않습니다. 코멘트 추가를 건너뜁니다."
+          fi
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Node 설치
         uses: actions/setup-node@v4
