@@ -20,7 +20,7 @@ jobs:
         run: npm ci
 
       - name: 테스트 실행
-        run: npm test
+        run: npm run test
 
       - name: 빌드하기
         run: npm run build

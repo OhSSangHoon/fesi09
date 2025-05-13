@@ -10,7 +10,8 @@
     "test:playwright": "playwright test",
     "test:playwright:ui": "playwright test --ui",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build"
+    "build-storybook": "storybook build",
+    "test": "npm run test:playwright"
   },
   "dependencies": {
     "@chromatic-com/storybook": "^3.2.6",
