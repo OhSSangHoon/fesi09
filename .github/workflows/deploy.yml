@@ -3,7 +3,7 @@ name: 코드잇 프론트엔드 단기심화 과정 배포
 on:
   push:
     branches:
-      - main
+      - playwright
     pull_request:
       branches:
         - "**"
@@ -24,7 +24,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: PR에 코멘트를 추가하겠습니다.
-        if: github.ref != 'refs/heads/main'
+        if: github.event_name == 'pull_request'
         run: |
           gh pr comment ${{ github.event.pull_request.number }} --body "안녕하세요! PR을 검토하겠습니다. 👋"
         env:
@@ -34,6 +34,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
+          cache: 'npm'
 
       - name: 의존성(라이브러리) 설치
         run: npm ci
