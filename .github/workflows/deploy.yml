@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - playwright
+    pull_request:
+      branches:
+        - "**"
 
 permissions:
   pull-requests: write
