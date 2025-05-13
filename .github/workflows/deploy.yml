@@ -5,16 +5,32 @@ on:
     branches:
       - playwright
 
+permissions:
+  pull-requests: write
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs: 
   my-job: 
     runs-on: ubuntu-latest
     
     steps: 
       - name: Github Repository 파일 가져오기
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
+
+      - name: PR에 코멘트를 추가하겠습니다.
+        if: github.ref != 'refs/heads/playwright'
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} --body "PR을 통해 배포를 진행해주세요."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Node 설치
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
 
       - name: 의존성(라이브러리) 설치
         run: npm ci
