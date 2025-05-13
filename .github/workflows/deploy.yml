@@ -1,12 +1,13 @@
-name: 코드잇 프론트엔드 단기심화 과정 배포
+name: Github Actions 연습하기
 
 on:
   push:
     branches:
-      - playwright
-    pull_request:
-      branches:
-        - "**"
+      - main
+      - playwright  # playwright 브랜치에서 푸시할 때도 실행
+  pull_request:
+    branches:
+      - "**"
 
 permissions:
   pull-requests: write
@@ -15,32 +16,26 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-jobs: 
-  my-job: 
+jobs:
+  my-job:
     runs-on: ubuntu-latest
     
-    steps: 
+    steps:
       - name: Github Repository 파일 가져오기
         uses: actions/checkout@v4
 
-      - name: PR에 코멘트를 추가하겠습니다.
-        run: |
-          gh pr comment ${{ github.event.pull_request.number }} --body "안녕하세요! PR을 검토하겠습니다. 👋"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # PR 코멘트 단계 제거
 
       - name: Node 설치
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: 'npm'
 
       - name: 의존성(라이브러리) 설치
         run: npm ci
 
-      - name: 테스트 실행
-        run: npm test
+      - name: 테스트 실행하기
+        run: npm run test
 
       - name: 빌드하기
         run: npm run build
-        if: always()
