@@ -3,7 +3,7 @@ name: 코드잇 프론트엔드 단기심화 과정 배포
 on:
   push:
     branches:
-      - main
+      - playwright
 
 jobs: 
   my-job: 
