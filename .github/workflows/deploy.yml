@@ -10,20 +10,17 @@ jobs:
     runs-on: ubuntu-latest
     
     steps: 
-      - name: Hello World 찍기
-        run: echo "Hello World"
-        
-      - name: 여러 명령어 문장 작성하기
-        run: | 
-          echo "Good"
-          echo "Morning"
+      - name: Github Repository 파일 가져오기
+        uses: actions/checkout@v3
 
-      - name: Github Actions 자체에 저장되어 있는 변수 사용해보기
-        run: | 
-          echo $GITHUB_SHA
-          echo $GITHUB_REPOSITORY
+      - name: Node 설치
+        uses: actions/setup-node@v3
 
-      - name: Github Actions Secret 변수 사용해보기
-        run: | 
-          echo ${{ secrets.MY_NAME }}
-          echo ${{ secrets.MY_HOBBY }}
+      - name: 의존성(라이브러리) 설치
+        run: npm ci
+
+      - name: 테스트 실행
+        run: npm test
+
+      - name: 빌드하기
+        run: npm run build
