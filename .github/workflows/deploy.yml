@@ -35,6 +35,9 @@ jobs:
       - name: 의존성(라이브러리) 설치
         run: npm ci
 
+      - name: playwright 설치
+        run: npx playwright install --with-deps
+
       - name: 테스트 실행
         run: npm test
 
