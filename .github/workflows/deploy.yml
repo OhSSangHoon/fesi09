@@ -39,7 +39,8 @@ jobs:
         run: npx playwright install --with-deps
 
       - name: 테스트 실행
-        run: npm test
+        run: npx playwright test
 
       - name: 빌드하기
         run: npm run build
+        if: always()
